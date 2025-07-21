@@ -23,14 +23,17 @@ export default function ViewAttendance() {
         const { data, error } = await supabase
             .from("attendance")
             .select(`
-        id,
-        timestamp,
-        verified,
-        signature_url,
-        students (full_name, registration_number),
-        class_sessions (session_title)
-      `)
+    id,
+    timestamp,
+    verified,
+    signature_url,
+    students (full_name, registration_number),
+    class_sessions (session_title)
+  `)
+            .not("student_id", "is", null)
+            .not("session_id", "is", null)
             .order("timestamp", { ascending: false });
+        console.log(data);
 
         if (error) console.error("Error:", error);
         else {
