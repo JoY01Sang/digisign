@@ -16,7 +16,6 @@ export default function StudentAttendanceHistory() {
                 .select(`
     id,
     timestamp,
-    verified,
     signature_url,
     class_sessions (
       session_title,
@@ -90,15 +89,13 @@ export default function StudentAttendanceHistory() {
                                         )}
                                     </td>
                                     <td className="px-4 py-2">
-                                            <span
-                                                className={`px-2 py-1 text-xs rounded font-semibold ${
-                                                    r.verified
-                                                        ? "bg-green-100 text-green-700"
-                                                        : "bg-red-100 text-red-700"
-                                                }`}
-                                            >
-                                                {r.verified ? "Present" : "Absent"}
-                                            </span>
+  <span
+      className={`px-2 py-1 text-xs rounded font-semibold ${
+          r.signature_url ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+      }`}
+  >
+    {r.signature_url ? "Present" : "Absent"}
+  </span>
                                     </td>
                                 </tr>
                             ))}

@@ -28,20 +28,25 @@ export default function ViewEnrolledStudents() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        // Fetch courses by lecturer
         const { data: lecturerCourses } = await supabase
             .from("courses")
             .select("id, name")
             .eq("lecturer_id", user.id);
 
         setCourses(lecturerCourses || []);
-        if (lecturerCourses?.length) setSelectedCourse(lecturerCourses[0].id);
 
-        // Fetch enrolled students
-        const { data } = await supabase
+        if (lecturerCourses?.length) setSelectedCourse(lecturerCourses[0].id);
+        if (!lecturerCourses || lecturerCourses.length === 0) return;
+
+        const { data, error } = await supabase
             .from("enrollments")
-            .select("student:students(id, full_name, registration_number, email), course_id")
+            .select("course_id, student:students!enrollments_student_id_fkey(id, full_name, registration_number, email)")
             .in("course_id", lecturerCourses.map(c => c.id));
+
+        if (error) {
+            console.error("Failed to fetch students", error);
+            return;
+        }
 
         const flattened = data.map((entry) => ({
             ...entry.student,
@@ -50,6 +55,7 @@ export default function ViewEnrolledStudents() {
         setStudents(flattened);
         setFiltered(flattened);
     };
+
 
     const handleDownload = () => {
         const doc = new jsPDF();

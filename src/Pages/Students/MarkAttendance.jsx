@@ -76,7 +76,8 @@ export default function MarkAttendance() {
                     .lte("start_time", nowUtc)
                     .gte("end_time", nowUtc)
                     .limit(1);
-
+                console.log("Now UTC:", nowUtc);
+                console.log("Sessions:", sessions);
                 if (sessionErr) throw new Error("Failed to fetch sessions");
 
                 const active = sessions?.[0];
@@ -167,7 +168,7 @@ export default function MarkAttendance() {
 
             const encoded = btoa(JSON.stringify(payload));
 
-            const response = await fetch("https://ycsqswlldpzuspadjerc.supabase.co/functions/v1/mark-attendance", {
+            const response = await fetch("https://owvifovjrawqtdpkwuyy.supabase.co/functions/v1/mark-attendance", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -25,7 +25,7 @@ export default function ViewAttendance() {
             .select(`
     id,
     timestamp,
-    verified,
+    
     signature_url,
     students (full_name, registration_number),
     class_sessions (session_title)
@@ -67,13 +67,13 @@ export default function ViewAttendance() {
         doc.text("Attendance Records", 14, 16);
         autoTable(doc, {
             startY: 20,
-            head: [["Student", "Reg No.", "Session", "Timestamp", "Verified"]],
+            head: [["Student", "Reg No.", "Session", "Timestamp"]],
             body: filtered.map((r) => [
                 r.students?.full_name || "—",
                 r.students?.registration_number || "—",
                 r.class_sessions?.session_title || "—",
                 new Date(r.timestamp).toLocaleString(),
-                r.verified ? "Yes" : "No",
+
             ]),
         });
         doc.save("attendance_records.pdf");
@@ -135,9 +135,7 @@ export default function ViewAttendance() {
                                 <th className="px-4 text-xs font-semibold text-coolGray-500 uppercase text-left">Session</th>
                                 <th className="px-4 text-xs font-semibold text-coolGray-500 uppercase text-left">Timestamp</th>
                                 <th className="px-4 text-xs font-semibold text-coolGray-500 uppercase text-left">Signature</th>
-                                <th className="px-4 text-xs font-semibold text-coolGray-500 uppercase text-left rounded-r-md">
-                                    Verified
-                                </th>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -155,15 +153,7 @@ export default function ViewAttendance() {
                                     <td className="px-4 text-sm text-green-600 underline">
                                         <a href={r.signature_url} target="_blank" rel="noopener noreferrer">View</a>
                                     </td>
-                                    <td className="px-4 text-sm">
-                      <span
-                          className={`px-2 py-1 rounded text-xs font-semibold ${
-                              r.verified ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
-                          }`}
-                      >
-                        {r.verified ? "Yes" : "No"}
-                      </span>
-                                    </td>
+
                                 </tr>
                             ))}
                             {filtered.length === 0 && (
