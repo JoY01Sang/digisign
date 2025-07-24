@@ -53,7 +53,7 @@ export default function Signup() {
 
             // Step 3: Call Edge Function with user details
             setProgressStage("Saving user data...");
-            const res = await fetch("https://ycsqswlldpzuspadjerc.supabase.co/functions/v1/signup", {
+            const res = await fetch("https://owvifovjrawqtdpkwuyy.supabase.co/functions/v1/signup-handler", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
